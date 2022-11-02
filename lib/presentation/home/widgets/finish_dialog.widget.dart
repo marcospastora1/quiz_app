@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:quiz_app/domain/questions/models/question.model.dart';
 import 'package:quiz_app/infracstructure/navigation/routes.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -8,6 +9,7 @@ class FinishDialog {
     BuildContext context, {
     required int hitNumber,
     required int questionNumber,
+    required QuestionModel questions,
   }) {
     return showDialog(
       context: context,
@@ -23,7 +25,7 @@ class FinishDialog {
             backgroundColor: Colors.green,
             maxRadius: 35,
             child: Icon(
-              hitNumber < 6 ? Icons.warning : Icons.favorite,
+              hitNumber < 5 ? Icons.warning : Icons.favorite,
               color: Colors.grey.shade900,
             ),
           ),
@@ -63,6 +65,7 @@ class FinishDialog {
             ),
             TextButton(
               onPressed: () {
+                questions.answers.shuffle();
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   Routes.home,
                   (Route<dynamic> route) => false,

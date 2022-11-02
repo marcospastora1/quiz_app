@@ -1,21 +1,16 @@
+import 'package:quiz_app/domain/questions/models/answer.model.dart';
 import 'package:quiz_app/infracstructure/services/data/question.data.dart';
 
 class QuestionModel {
   final String question;
-  final String answer1;
-  final String answer2;
+  final List<AnswerModel> answers;
 
-  const QuestionModel({
-    required this.question,
-    required this.answer1,
-    required this.answer2,
-  });
+  const QuestionModel({required this.answers, required this.question});
 
-  factory QuestionModel.fromData(QuestionData data) {
+  factory QuestionModel.fromData(QuestionData questions) {
     return QuestionModel(
-      question: data.question,
-      answer1: data.answer1,
-      answer2: data.answer2,
+      question: questions.question,
+      answers: questions.answers.map((e) => AnswerModel.fromData(e)).toList(),
     );
   }
 }

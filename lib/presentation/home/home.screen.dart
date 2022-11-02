@@ -39,6 +39,8 @@ class HomeScreen extends GetView<HomeController> {
                         _buildQuestion(controller.getQuestion()),
                         _buildAnswerButton(controller.getAnswer1(), context),
                         _buildAnswerButton(controller.getAnswer2(), context),
+                        _buildAnswerButton(controller.getAnswer3(), context),
+                        _buildAnswerButton(controller.getAnswer4(), context),
                         _buildScoreKeeper(),
                       ],
                     ),
@@ -112,6 +114,7 @@ class HomeScreen extends GetView<HomeController> {
                     context,
                     hitNumber: controller.hitNumber.value,
                     questionNumber: controller.questionsNumber,
+                    questions: controller.question,
                   );
                 }
               },

@@ -18,7 +18,7 @@ class HomeController extends GetxController {
   final random = Random();
   final hitNumber = 0.obs;
   final questionIndex = 0.obs;
-  late final bool shitfAnswer;
+  late final bool shiftAnswer;
 
   int get questionsNumber => questions.length;
   QuestionModel get question => questions[questionIndex.value];
@@ -35,7 +35,8 @@ class HomeController extends GetxController {
       final response = await _questionsRepository.getQuestions();
       questions.assignAll(response);
       questions.shuffle();
-      shitfAnswer = random.nextBool();
+      questions[questionIndex.value].answers.shuffle();
+      shiftAnswer = random.nextBool();
     } catch (err) {
       SnackbarUtil.showWarning(message: err.toString());
       rethrow;
@@ -46,6 +47,7 @@ class HomeController extends GetxController {
 
   void nextQuestion() {
     questionIndex.value = ++questionIndex.value % questions.length;
+    question.answers.shuffle();
   }
 
   String getQuestion() {
@@ -53,19 +55,56 @@ class HomeController extends GetxController {
   }
 
   String getAnswer1() {
-    return shitfAnswer
-        ? questions[questionIndex.value].answer1
-        : questions[questionIndex.value].answer2;
+    return shiftAnswer
+        ? questions[questionIndex.value].answers[0].resposta
+        : shiftAnswer
+            ? questions[questionIndex.value].answers[1].resposta
+            : shiftAnswer
+                ? questions[questionIndex.value].answers[2].resposta
+                : questions[questionIndex.value].answers[3].resposta;
   }
 
   String getAnswer2() {
-    return shitfAnswer
-        ? questions[questionIndex.value].answer2
-        : questions[questionIndex.value].answer1;
+    return shiftAnswer
+        ? questions[questionIndex.value].answers[1].resposta
+        : shiftAnswer
+            ? questions[questionIndex.value].answers[2].resposta
+            : shiftAnswer
+                ? questions[questionIndex.value].answers[3].resposta
+                : questions[questionIndex.value].answers[0].resposta;
+  }
+
+  String getAnswer3() {
+    return shiftAnswer
+        ? questions[questionIndex.value].answers[2].resposta
+        : shiftAnswer
+            ? questions[questionIndex.value].answers[3].resposta
+            : shiftAnswer
+                ? questions[questionIndex.value].answers[0].resposta
+                : questions[questionIndex.value].answers[1].resposta;
+  }
+
+  String getAnswer4() {
+    return shiftAnswer
+        ? questions[questionIndex.value].answers[3].resposta
+        : shiftAnswer
+            ? questions[questionIndex.value].answers[0].resposta
+            : shiftAnswer
+                ? questions[questionIndex.value].answers[1].resposta
+                : questions[questionIndex.value].answers[2].resposta;
   }
 
   bool correctAnswer(String answer) {
-    var correct = questions[questionIndex.value].answer1 == answer;
+    var correct = questions[questionIndex.value].answers[0].verdadeira
+        ? questions[questionIndex.value].answers[0].resposta == answer
+        : questions[questionIndex.value].answers[1].verdadeira
+            ? questions[questionIndex.value].answers[1].resposta == answer
+            : questions[questionIndex.value].answers[2].verdadeira
+                ? questions[questionIndex.value].answers[2].resposta == answer
+                : questions[questionIndex.value].answers[3].verdadeira
+                    ? questions[questionIndex.value].answers[3].resposta ==
+                        answer
+                    : false;
     hitNumber.value = hitNumber.value + (correct ? 1 : 0);
     return correct;
   }

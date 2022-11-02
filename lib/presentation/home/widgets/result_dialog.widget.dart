@@ -47,7 +47,15 @@ class ResultDialog {
                 ),
               ),
               Text(
-                question.answer1,
+                question.answers[0].verdadeira
+                    ? question.answers[0].resposta
+                    : question.answers[1].verdadeira
+                        ? question.answers[1].resposta
+                        : question.answers[2].verdadeira
+                            ? question.answers[2].resposta
+                            : question.answers[3].verdadeira
+                                ? question.answers[3].resposta
+                                : '',
                 style: const TextStyle(color: Colors.white),
               )
             ],

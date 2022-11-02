@@ -1,18 +1,14 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:quiz_app/infracstructure/services/data/answer.data.dart';
 
 part 'question.data.g.dart';
 
 @JsonSerializable()
 class QuestionData {
   final String question;
-  final String answer1;
-  final String answer2;
+  final List<AnswerData> answers;
 
-  const QuestionData({
-    required this.question,
-    required this.answer1,
-    required this.answer2,
-  });
+  const QuestionData({required this.answers, required this.question});
 
   factory QuestionData.fromJson(Map<String, dynamic> json) =>
       _$QuestionDataFromJson(json);
