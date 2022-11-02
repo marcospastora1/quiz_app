@@ -9,6 +9,7 @@ class ResultDialog {
     required Function onNext,
   }) {
     return showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(

@@ -21,6 +21,8 @@ dependencies:
   get_storage: ^2.0.3
   http: ^0.13.5
   logger: ^1.1.0
+  path_provider: ^2.0.11
+  screenshot: ^1.2.3
   share_plus: ^4.0.10+1
 
 dev_dependencies:
