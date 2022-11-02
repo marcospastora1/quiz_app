@@ -9,7 +9,7 @@ class QuestionsRepository {
 
   Future<List<QuestionModel>> getQuestions() async {
     try {
-      final response = await _questionsService.getQuestions();
+      final response = await _questionsService.getQuestionsCiencias();
       final models = response.map((e) => QuestionModel.fromData(e)).toList();
       return models;
     } catch (err) {
