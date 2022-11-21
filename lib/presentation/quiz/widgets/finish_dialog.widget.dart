@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:quiz_app/domain/questions/models/question.model.dart';
 import 'package:quiz_app/domain/utils/snackbar.util.dart';
@@ -17,6 +16,7 @@ class FinishDialog {
     required int hitNumber,
     required int questionNumber,
     required QuestionModel questions,
+    required VoidCallback jogarNovamente,
   }) {
     final screenshotController = ScreenshotController();
     return showDialog(
@@ -88,6 +88,10 @@ class FinishDialog {
               child: const Text('Compartilhar'),
             ),
             TextButton(
+              onPressed: jogarNovamente,
+              child: const Text('Jogar novamente'),
+            ),
+            TextButton(
               onPressed: () {
                 questions.answers.shuffle();
                 Navigator.of(context).pushNamedAndRemoveUntil(
@@ -95,12 +99,8 @@ class FinishDialog {
                   (Route<dynamic> route) => false,
                 );
               },
-              child: const Text('Voltar ao menu'),
+              child: const Text('Menu'),
             ),
-            const TextButton(
-              onPressed: SystemNavigator.pop,
-              child: Text('Sair'),
-            )
           ],
         );
       },
