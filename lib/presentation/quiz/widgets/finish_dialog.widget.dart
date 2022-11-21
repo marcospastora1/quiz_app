@@ -42,9 +42,9 @@ class FinishDialog {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Parabéns',
-                style: TextStyle(
+              Text(
+                hitNumber <= 2 ? 'Que pena' : 'Parabéns',
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -95,7 +95,7 @@ class FinishDialog {
                   (Route<dynamic> route) => false,
                 );
               },
-              child: const Text('Jogar novamente'),
+              child: const Text('Voltar ao menu'),
             ),
             const TextButton(
               onPressed: SystemNavigator.pop,
