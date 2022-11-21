@@ -10,7 +10,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'controllers/quiz.controller.dart';
 
 class QuizScreen extends GetView<QuizController> {
-  final scoreKeeper = <Widget>[].obs;
   @override
   Widget build(BuildContext context) {
     return BaseWidget(
@@ -19,7 +18,7 @@ class QuizScreen extends GetView<QuizController> {
           appBar: AppBar(
             backgroundColor: Colors.grey.shade900,
             title: Text(
-              'Quiz ${controller.quiz} (${scoreKeeper.length}/${controller.questions.length})',
+              'Quiz ${controller.quiz} (${controller.scoreKeeper.length}/${controller.questionsEscolhidas.length})',
             ),
             centerTitle: true,
           ),
@@ -28,9 +27,18 @@ class QuizScreen extends GetView<QuizController> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: controller.questionsNumber == 0
-                  ? const CenteredMessageWidget(
-                      message: 'Sem questões',
-                      icon: Icons.warning,
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const CenteredMessageWidget(
+                          message: 'Sem questões',
+                          icon: Icons.warning,
+                        ),
+                        IconButton(
+                          onPressed: controller.loadQuestions,
+                          icon: const Icon(Icons.refresh),
+                        )
+                      ],
                     )
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,14 +108,15 @@ class QuizScreen extends GetView<QuizController> {
               question: controller.question,
               correct: correct,
               onNext: () {
-                scoreKeeper.add(
+                controller.scoreKeeper.add(
                   Icon(
                     correct ? Icons.check : Icons.close,
                     color: correct ? Colors.green : Colors.red,
                   ),
                 );
 
-                if (scoreKeeper.length < controller.questionsNumber) {
+                if (controller.scoreKeeper.length <
+                    controller.questionsNumber) {
                   controller.nextQuestion();
                 } else {
                   FinishDialog.show(
@@ -115,6 +124,7 @@ class QuizScreen extends GetView<QuizController> {
                     hitNumber: controller.hitNumber.value,
                     questionNumber: controller.questionsNumber,
                     questions: controller.question,
+                    jogarNovamente: () => controller.jogarNovamente(),
                   );
                 }
               },
@@ -129,7 +139,7 @@ class QuizScreen extends GetView<QuizController> {
     return Expanded(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: scoreKeeper,
+        children: controller.scoreKeeper,
       ),
     );
   }
