@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:quiz_app/domain/questions/models/question.model.dart';
 import 'package:quiz_app/domain/utils/snackbar.util.dart';
 import 'package:quiz_app/infracstructure/navigation/routes.dart';
-import 'package:quiz_app/presentation/home/widgets/finish_share.widge.dart';
+import 'package:quiz_app/presentation/quiz/widgets/finish_share.widge.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 

@@ -6,13 +6,16 @@ import 'package:quiz_app/domain/questions/questions.repository.dart';
 import 'package:quiz_app/domain/utils/snackbar.util.dart';
 import 'package:quiz_app/presentation/shared/loading/loading.controller.dart';
 
-class HomeController extends GetxController {
+class QuizController extends GetxController {
   final QuestionsRepository _questionsRepository;
 
   final _loading = Get.find<LoadingController>();
+  late final String quiz;
 
-  HomeController({required QuestionsRepository questionsRepository})
-      : _questionsRepository = questionsRepository;
+  QuizController({required QuestionsRepository questionsRepository})
+      : _questionsRepository = questionsRepository {
+    quiz = Get.arguments;
+  }
 
   final questions = <QuestionModel>[].obs;
   final random = Random();
@@ -32,13 +35,14 @@ class HomeController extends GetxController {
   Future<void> loadQuestions() async {
     try {
       _loading.isLoading = true;
-      final response = await _questionsRepository.getQuestions();
+      final response = await _questionsRepository.getQuestions(quiz: quiz);
       questions.assignAll(response);
       questions.shuffle();
       questions[questionIndex.value].answers.shuffle();
       shiftAnswer = random.nextBool();
     } catch (err) {
-      SnackbarUtil.showWarning(message: err.toString());
+      SnackbarUtil.showWarning(
+          message: 'Não foi possível pegar as perguntas 😢');
       rethrow;
     } finally {
       _loading.isLoading = false;
