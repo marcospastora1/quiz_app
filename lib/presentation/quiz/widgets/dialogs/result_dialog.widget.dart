@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/domain/questions/models/question.model.dart';
+import 'package:quiz_app/presentation/quiz/widgets/dialogs/finish_dialog.widget.dart';
 
 class ResultDialog {
   static Future show(
     BuildContext context, {
     required QuestionModel question,
     required bool correct,
-    required Function onNext,
+    required String sequencia,
+    required int questionNow,
+    questionNumber,
+    required void Function() jogarNovamente,
   }) {
     return showDialog(
       barrierDismissible: false,
@@ -20,10 +25,12 @@ class ResultDialog {
             ),
           ),
           title: CircleAvatar(
+            foregroundColor: Colors.white,
             backgroundColor: correct ? Colors.green : Colors.red,
             child: Icon(
               correct ? Icons.check : Icons.close,
               color: Colors.grey.shade900,
+              size: 35,
             ),
           ),
           content: Column(
@@ -47,27 +54,49 @@ class ResultDialog {
                   color: correct ? Colors.green : Colors.red,
                 ),
               ),
+              const SizedBox(height: 8),
               Text(
                 question.answers[0].verdadeira
-                    ? question.answers[0].resposta
+                    ? sequencia +
+                        ' ' +
+                        question.answers[0].resposta.toUpperCase()
                     : question.answers[1].verdadeira
-                        ? question.answers[1].resposta
+                        ? sequencia +
+                            ' ' +
+                            question.answers[1].resposta.toUpperCase()
                         : question.answers[2].verdadeira
-                            ? question.answers[2].resposta
+                            ? sequencia +
+                                ' ' +
+                                question.answers[2].resposta.toUpperCase()
                             : question.answers[3].verdadeira
-                                ? question.answers[3].resposta
+                                ? sequencia +
+                                    ' ' +
+                                    question.answers[3].resposta.toUpperCase()
                                 : '',
-                style: const TextStyle(color: Colors.white),
+                style: GoogleFonts.poppins(
+                  color: Colors.green,
+                  fontWeight: FontWeight.w700,
+                ),
               )
             ],
           ),
           actions: [
             TextButton(
               child: const Text('PRÓXIMO'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                onNext();
-              },
+              onPressed: questionNow == 5
+                  ? () {
+                      Navigator.of(context).pop();
+                      FinishDialog.show(
+                        context,
+                        hitNumber: questionNow,
+                        questionNumber: questionNumber,
+                        questions: question,
+                        jogarNovamente: () => jogarNovamente(),
+                      );
+                    }
+                  : () {
+                      Navigator.of(context).pop();
+                    },
             )
           ],
         );

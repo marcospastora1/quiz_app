@@ -2,11 +2,13 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:quiz_app/domain/core/constants/assets.constants.dart';
 import 'package:quiz_app/domain/questions/models/question.model.dart';
 import 'package:quiz_app/domain/utils/snackbar.util.dart';
 import 'package:quiz_app/infracstructure/navigation/routes.dart';
-import 'package:quiz_app/presentation/quiz/widgets/finish_share.widge.dart';
+import 'package:quiz_app/presentation/quiz/widgets/dialogs/finish_share.widge.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -30,35 +32,36 @@ class FinishDialog {
               Radius.circular(10),
             ),
           ),
-          title: CircleAvatar(
-            backgroundColor: Colors.green,
-            maxRadius: 35,
-            child: Icon(
-              hitNumber < 5 ? Icons.warning : Icons.favorite,
-              color: Colors.grey.shade900,
-            ),
+          title: Column(
+            children: [
+              Image.asset(AssetsConstants.alerta, width: 50, height: 50),
+              const SizedBox(height: 5),
+              Text(
+                'Fim de jogo!',
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 30),
+            ],
           ),
           content: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                hitNumber <= 2 ? 'Que pena' : 'Parabéns',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                hitNumber <= 2
+                    ? 'Que pena, você acertou $hitNumber de $questionNumber!'
+                    : 'Parabéns, você acertou $hitNumber de $questionNumber!',
+                style: GoogleFonts.poppins(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color:
+                      hitNumber <= 2 ? const Color(0xFFD11515) : Colors.green,
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                'Você acertou $hitNumber de $questionNumber!',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
               Text(
                 hitNumber < 5
                     ? 'Que tal tentar mais uma vez? Quem sabe você consegue acertar todas na próxima!'

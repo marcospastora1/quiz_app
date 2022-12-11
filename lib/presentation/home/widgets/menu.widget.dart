@@ -7,34 +7,33 @@ class MenuWidget extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
+      mainAxisSpacing: 33,
+      crossAxisSpacing: 43,
       padding: const EdgeInsets.all(10),
       crossAxisCount: 2,
       children: [
         _ItemMenuWidget(
           onTap: () => controller.navToQuestion(argument: 'Ciências'),
-          imagem: AssetsConstants.ciencias,
+          imagem: AssetsConstants.cienciasV2,
         ),
         _ItemMenuWidget(
           onTap: () => controller.navToQuestion(argument: 'História'),
-          imagem: AssetsConstants.historia,
+          imagem: AssetsConstants.historiaV2,
         ),
         _ItemMenuWidget(
-          onTap: () => controller.navToQuestion(argument: 'Geografia'),
-          imagem: AssetsConstants.geografia,
-        ),
+            onTap: () => controller.navToQuestion(argument: 'Geografia'),
+            imagem: AssetsConstants.geografiaV2),
         _ItemMenuWidget(
           onTap: () => controller.navToQuestion(argument: 'Português'),
-          imagem: AssetsConstants.portugues,
+          imagem: AssetsConstants.portuguesV2,
         ),
         _ItemMenuWidget(
           onTap: () => controller.navToQuestion(argument: 'Matemática'),
-          imagem: AssetsConstants.matematica,
+          imagem: AssetsConstants.matematicaV2,
         ),
         _ItemMenuWidget(
           onTap: () => controller.navToQuestion(argument: 'Geral'),
-          imagem: AssetsConstants.gerais,
+          imagem: AssetsConstants.geraisV2,
         )
       ],
     );
