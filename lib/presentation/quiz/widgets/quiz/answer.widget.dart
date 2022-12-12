@@ -41,6 +41,7 @@ class AnswerWidget extends GetView<QuizController> {
             ),
           ),
           onTap: () async {
+            controller.click.value = true;
             correct.value = controller.correctAnswer(answer);
             await Future.delayed(const Duration(milliseconds: 500));
 
@@ -52,28 +53,33 @@ class AnswerWidget extends GetView<QuizController> {
             );
 
             if (correct.value == false) {
-              ResultDialog.show(
-                context,
-                question: controller.question,
-                correct: correct.value,
-                sequencia: sequencia,
-                questionNow: controller.scoreKeeper.length,
-                questionNumber: controller.questionsNumber,
-                jogarNovamente: controller.jogarNovamente,
+              Get.dialog(
+                barrierDismissible: false,
+                ResultDialog(
+                  question: controller.question,
+                  correct: correct.value,
+                  sequencia: sequencia,
+                  questionNow: controller.scoreKeeper.length,
+                  questionNumber: controller.questionsNumber,
+                  jogarNovamente: controller.jogarNovamente,
+                  nextQuestion: controller.nextQuestion,
+                  hitNumber: controller.hitNumber.value,
+                ),
               );
-            }
-
-            if (controller.scoreKeeper.length < controller.questionsNumber) {
+            } else if (controller.scoreKeeper.length <
+                controller.questionsNumber) {
               controller.nextQuestion();
             } else {
               await Future.delayed(const Duration(milliseconds: 200));
               if (controller.scoreKeeper.length == 5 && correct.value) {
-                FinishDialog.show(
-                  context,
-                  hitNumber: controller.hitNumber.value,
-                  questionNumber: controller.questionsNumber,
-                  questions: controller.question,
-                  jogarNovamente: () => controller.jogarNovamente(),
+                Get.dialog(
+                  barrierDismissible: false,
+                  FinishDialog(
+                    hitNumber: controller.hitNumber.value,
+                    questionNumber: controller.questionsNumber,
+                    questions: controller.question,
+                    jogarNovamente: () => controller.jogarNovamente(),
+                  ),
                 );
               }
             }

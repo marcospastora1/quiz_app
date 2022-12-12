@@ -1,10 +1,12 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/domain/questions/models/question.model.dart';
 import 'package:quiz_app/domain/questions/questions.repository.dart';
 import 'package:quiz_app/domain/utils/snackbar.util.dart';
+import 'package:quiz_app/presentation/quiz/widgets/dialogs/finish_dialog.widget.dart';
+import 'package:quiz_app/presentation/quiz/widgets/dialogs/result_dialog.widget.dart';
 import 'package:quiz_app/presentation/shared/loading/loading.controller.dart';
 
 class QuizController extends GetxController {
@@ -26,15 +28,18 @@ class QuizController extends GetxController {
   final hitNumber = 0.obs;
   final questionIndex = 0.obs;
   late final bool shiftAnswer;
+  final cronometro = 20.obs;
+  final click = false.obs;
 
   int get questionsNumber => questionsEscolhidas.length;
   QuestionModel get question => questionsEscolhidas[questionIndex.value];
 
   @override
-  onReady() {
+  onReady() async {
     super.onReady();
-    loadQuestions();
+    await loadQuestions();
     shiftAnswer = random.nextBool();
+    await cronometroFunc();
   }
 
   Future<void> loadQuestions() async {
@@ -42,8 +47,6 @@ class QuizController extends GetxController {
       _loading.isLoading = true;
       final response = await _questionsRepository.getQuestions(quiz: quiz);
       questions.assignAll(response);
-      // questions.shuffle();
-      // questions[questionIndex.value].answers.shuffle();
       for (var i = 0; i < totalEscolhidas; i++) {
         questions.shuffle();
         questionsEscolhidas.add(questions.last);
@@ -59,9 +62,23 @@ class QuizController extends GetxController {
     }
   }
 
-  void nextQuestion() {
+  void nextQuestion() async {
     questionIndex.value = ++questionIndex.value % questionsEscolhidas.length;
     question.answers.shuffle();
+    if (scoreKeeper.length >= 5) {
+      Get.dialog(
+        barrierDismissible: false,
+        FinishDialog(
+          hitNumber: hitNumber.value,
+          questionNumber: scoreKeeper.length,
+          questions: question,
+          jogarNovamente: jogarNovamente,
+        ),
+      );
+    } else {
+      cronometro.value = 20;
+      cronometroFunc();
+    }
   }
 
   String getQuestion() {
@@ -129,7 +146,7 @@ class QuizController extends GetxController {
     return correct;
   }
 
-  void jogarNovamente() {
+  void jogarNovamente() async {
     questionIndex.value = 0;
     hitNumber.value = 0;
     questions.value = [];
@@ -137,5 +154,50 @@ class QuizController extends GetxController {
     questionsEscolhidas.value = [];
     loadQuestions();
     Get.back();
+    cronometro.value = 20;
+    await cronometroFunc();
+  }
+
+  Future<void> cronometroFunc() async {
+    click.value = false;
+    while (cronometro.value > 0) {
+      await Future.delayed(const Duration(seconds: 1));
+      cronometro.value -= 1;
+      if (click.value) {
+        break;
+      }
+    }
+    if (cronometro.value == 0 && scoreKeeper.length < 5) {
+      Get.dialog(
+        barrierDismissible: false,
+        ResultDialog(
+          question: question,
+          correct: false,
+          sequencia: '',
+          questionNow: scoreKeeper.length,
+          questionNumber: questionsNumber,
+          jogarNovamente: jogarNovamente,
+          nextQuestion: nextQuestion,
+          hitNumber: hitNumber.value,
+        ),
+      );
+      scoreKeeper.add(
+        const Icon(
+          Icons.close,
+          color: Colors.red,
+        ),
+      );
+    } else if (cronometro.value == 0 && scoreKeeper.length == 5) {
+      ResultDialog(
+        question: question,
+        correct: false,
+        sequencia: '',
+        questionNow: scoreKeeper.length,
+        questionNumber: questionsNumber,
+        jogarNovamente: jogarNovamente,
+        nextQuestion: nextQuestion,
+        hitNumber: hitNumber.value,
+      );
+    }
   }
 }

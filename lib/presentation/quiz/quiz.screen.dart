@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/presentation/quiz/widgets/centered_message.widget.dart';
 import 'package:quiz_app/presentation/quiz/widgets/quiz/answer.widget.dart';
+import 'package:quiz_app/presentation/quiz/widgets/quiz/cronometro.widget.dart';
 import 'package:quiz_app/presentation/quiz/widgets/quiz/question.widget.dart';
 import 'package:quiz_app/presentation/quiz/widgets/quiz/score.widget.dart';
 import 'package:quiz_app/presentation/shared/loading/base.widget.dart';
@@ -39,26 +40,35 @@ class QuizScreen extends GetView<QuizController> {
                       ],
                     )
                   : Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        QuestionWidget(question: controller.getQuestion()),
-                        AnswerWidget(
-                          sequencia: 'A)',
-                          answer: controller.getAnswer1(),
+                        const SizedBox(height: 30),
+                        CronometroWidget(cronometro: controller.cronometro),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              QuestionWidget(
+                                  question: controller.getQuestion()),
+                              AnswerWidget(
+                                sequencia: 'A)',
+                                answer: controller.getAnswer1(),
+                              ),
+                              AnswerWidget(
+                                sequencia: 'B)',
+                                answer: controller.getAnswer2(),
+                              ),
+                              AnswerWidget(
+                                sequencia: 'C)',
+                                answer: controller.getAnswer3(),
+                              ),
+                              AnswerWidget(
+                                sequencia: 'D)',
+                                answer: controller.getAnswer4(),
+                              ),
+                              ScoreWidget(),
+                            ],
+                          ),
                         ),
-                        AnswerWidget(
-                          sequencia: 'B)',
-                          answer: controller.getAnswer2(),
-                        ),
-                        AnswerWidget(
-                          sequencia: 'C)',
-                          answer: controller.getAnswer3(),
-                        ),
-                        AnswerWidget(
-                          sequencia: 'D)',
-                          answer: controller.getAnswer4(),
-                        ),
-                        ScoreWidget(),
                       ],
                     ),
             ),
