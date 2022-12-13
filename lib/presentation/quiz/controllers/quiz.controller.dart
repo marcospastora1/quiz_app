@@ -173,7 +173,6 @@ class QuizController extends GetxController {
         ResultDialog(
           question: question,
           correct: false,
-          sequencia: '',
           questionNow: scoreKeeper.length,
           questionNumber: questionsNumber,
           jogarNovamente: jogarNovamente,
@@ -191,7 +190,6 @@ class QuizController extends GetxController {
       ResultDialog(
         question: question,
         correct: false,
-        sequencia: '',
         questionNow: scoreKeeper.length,
         questionNumber: questionsNumber,
         jogarNovamente: jogarNovamente,

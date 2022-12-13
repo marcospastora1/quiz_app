@@ -7,14 +7,12 @@ import 'package:quiz_app/presentation/quiz/widgets/dialogs/finish_dialog.widget.
 class ResultDialog extends StatelessWidget {
   final QuestionModel question;
   final bool correct;
-  final String sequencia;
   final int questionNow, questionNumber, hitNumber;
   final void Function() jogarNovamente, nextQuestion;
 
   const ResultDialog({
     required this.question,
     required this.correct,
-    required this.sequencia,
     required this.questionNow,
     required this.questionNumber,
     required this.hitNumber,
@@ -64,19 +62,13 @@ class ResultDialog extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             question.answers[0].verdadeira
-                ? sequencia + ' ' + question.answers[0].resposta.toUpperCase()
+                ? question.answers[0].resposta.toUpperCase()
                 : question.answers[1].verdadeira
-                    ? sequencia +
-                        ' ' +
-                        question.answers[1].resposta.toUpperCase()
+                    ? question.answers[1].resposta.toUpperCase()
                     : question.answers[2].verdadeira
-                        ? sequencia +
-                            ' ' +
-                            question.answers[2].resposta.toUpperCase()
+                        ? question.answers[2].resposta.toUpperCase()
                         : question.answers[3].verdadeira
-                            ? sequencia +
-                                ' ' +
-                                question.answers[3].resposta.toUpperCase()
+                            ? question.answers[3].resposta.toUpperCase()
                             : '',
             style: GoogleFonts.poppins(
               color: Colors.green,

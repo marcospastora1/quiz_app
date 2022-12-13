@@ -58,7 +58,6 @@ class AnswerWidget extends GetView<QuizController> {
                 ResultDialog(
                   question: controller.question,
                   correct: correct.value,
-                  sequencia: sequencia,
                   questionNow: controller.scoreKeeper.length,
                   questionNumber: controller.questionsNumber,
                   jogarNovamente: controller.jogarNovamente,
