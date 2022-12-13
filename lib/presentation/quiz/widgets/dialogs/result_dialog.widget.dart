@@ -9,6 +9,7 @@ class ResultDialog extends StatelessWidget {
   final bool correct;
   final int questionNow, questionNumber, hitNumber;
   final void Function() jogarNovamente, nextQuestion;
+  final void Function()? salvarRanking;
 
   const ResultDialog({
     required this.question,
@@ -18,6 +19,7 @@ class ResultDialog extends StatelessWidget {
     required this.hitNumber,
     required this.jogarNovamente,
     required this.nextQuestion,
+    this.salvarRanking,
   });
 
   @override
@@ -83,6 +85,7 @@ class ResultDialog extends StatelessWidget {
           onPressed: questionNow == 5
               ? () {
                   Navigator.of(context).pop();
+                  salvarRanking != null ? salvarRanking!() : null;
                   Get.dialog(
                     barrierDismissible: false,
                     FinishDialog(

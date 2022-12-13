@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:quiz_app/domain/core/constants/storage.constants.dart';
 import 'package:quiz_app/domain/questions/models/question.model.dart';
 import 'package:quiz_app/domain/questions/questions.repository.dart';
 import 'package:quiz_app/domain/utils/snackbar.util.dart';
@@ -11,13 +13,15 @@ import 'package:quiz_app/presentation/shared/loading/loading.controller.dart';
 
 class QuizController extends GetxController {
   final QuestionsRepository _questionsRepository;
+  final _storage = Get.find<GetStorage>();
 
   final _loading = Get.find<LoadingController>();
-  late final String quiz;
+  late final String quiz, nomeRanking;
 
   QuizController({required QuestionsRepository questionsRepository})
       : _questionsRepository = questionsRepository {
-    quiz = Get.arguments;
+    quiz = Get.arguments['quiz'];
+    nomeRanking = Get.arguments['nome'];
   }
 
   final questions = <QuestionModel>[].obs;
@@ -64,8 +68,10 @@ class QuizController extends GetxController {
 
   void nextQuestion() async {
     questionIndex.value = ++questionIndex.value % questionsEscolhidas.length;
+    click.value = true;
     question.answers.shuffle();
     if (scoreKeeper.length >= 5) {
+      salvarRanking();
       Get.dialog(
         barrierDismissible: false,
         FinishDialog(
@@ -197,5 +203,34 @@ class QuizController extends GetxController {
         hitNumber: hitNumber.value,
       );
     }
+  }
+
+  void salvarRanking() async {
+    final List<Map<String, dynamic>> ranking =
+        List.castFrom(_storage.read(StorageConstants.ranking));
+
+    final Map<String, dynamic> rankingAdd = {};
+    final List<String> listNomes = [];
+
+    if (ranking.isEmpty) {
+      ranking.add({"Nome": nomeRanking, "Pontos": hitNumber.value});
+    } else {
+      for (var e in ranking) {
+        listNomes.add(e['Nome'].toLowerCase());
+        if (e.containsValue(nomeRanking)) {
+          e['Pontos'] += hitNumber.value;
+        }
+      }
+
+      if (listNomes.isNotEmpty) {
+        rankingAdd.addAllIf(
+          !(listNomes.contains(nomeRanking.toLowerCase())),
+          {"Nome": nomeRanking, "Pontos": hitNumber.value},
+        );
+      }
+    }
+
+    ranking.addIf(rankingAdd.isNotEmpty, rankingAdd);
+    await _storage.write(StorageConstants.ranking, ranking);
   }
 }

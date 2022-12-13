@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/presentation/quiz/controllers/quiz.controller.dart';
-import 'package:quiz_app/presentation/quiz/widgets/dialogs/finish_dialog.widget.dart';
 import 'package:quiz_app/presentation/quiz/widgets/dialogs/result_dialog.widget.dart';
 
 class AnswerWidget extends GetView<QuizController> {
@@ -63,6 +62,7 @@ class AnswerWidget extends GetView<QuizController> {
                   jogarNovamente: controller.jogarNovamente,
                   nextQuestion: controller.nextQuestion,
                   hitNumber: controller.hitNumber.value,
+                  salvarRanking: controller.salvarRanking,
                 ),
               );
             } else if (controller.scoreKeeper.length <
@@ -71,15 +71,7 @@ class AnswerWidget extends GetView<QuizController> {
             } else {
               await Future.delayed(const Duration(milliseconds: 200));
               if (controller.scoreKeeper.length == 5 && correct.value) {
-                Get.dialog(
-                  barrierDismissible: false,
-                  FinishDialog(
-                    hitNumber: controller.hitNumber.value,
-                    questionNumber: controller.questionsNumber,
-                    questions: controller.question,
-                    jogarNovamente: () => controller.jogarNovamente(),
-                  ),
-                );
+                controller.nextQuestion();
               }
             }
           },
