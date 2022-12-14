@@ -1,6 +1,7 @@
 abstract class AssetsConstants {
   static const _pathImages = 'assets/images';
   static const _pathImagesV2 = 'assets/images/v2';
+  static const _pathImagesComponents = 'assets/images/componentes';
 
   static const String ciencias = '$_pathImages/ciencias.jpg';
   static const String historia = '$_pathImages/historia.jpg';
@@ -17,4 +18,11 @@ abstract class AssetsConstants {
   static const String geraisV2 = '$_pathImagesV2/gerais.jpg';
   static const String logo = '$_pathImagesV2/logo.png';
   static const String alerta = '$_pathImagesV2/alerta.png';
+
+  static const String glayton = '$_pathImagesComponents/glayton.png';
+  static const String jefferson = '$_pathImagesComponents/jefferson.png';
+  static const String jose = '$_pathImagesComponents/jose.png';
+  static const String marcos = '$_pathImagesComponents/marcos.png';
+  static const String ravel = '$_pathImagesComponents/ravel.png';
+  static const String wasny = '$_pathImagesComponents/wasny.png';
 }

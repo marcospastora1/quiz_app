@@ -23,12 +23,19 @@ class DrawerWidget extends GetView<HomeController> {
                 ),
                 const SizedBox(height: 15),
                 ItemMenuWidget(
+                  label: 'Inicio',
+                  onTap: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                    Routes.home,
+                    (route) => false,
+                  ),
+                ),
+                ItemMenuWidget(
                   label: 'Ranking geral',
                   onTap: () => Get.toNamed(Routes.ranking),
                 ),
                 ItemMenuWidget(
                   label: 'Sobre o projeto',
-                  onTap: () {},
+                  onTap: () => Get.toNamed(Routes.about),
                 ),
                 const Spacer(),
               ],
