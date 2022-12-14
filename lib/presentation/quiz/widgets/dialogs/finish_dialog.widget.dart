@@ -105,6 +105,14 @@ class FinishDialog extends StatelessWidget {
           },
           child: const Text('Menu'),
         ),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.ranking,
+                (route) => false,
+              );
+            },
+            child: const Text('Ranking'))
       ],
     );
   }

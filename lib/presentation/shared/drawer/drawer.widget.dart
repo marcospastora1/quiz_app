@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quiz_app/infracstructure/navigation/routes.dart';
 import 'package:quiz_app/presentation/home/controller/home.controller.dart';
-import 'package:quiz_app/presentation/home/widgets/drawer/item_menu.widget.dart';
-import 'package:quiz_app/presentation/home/widgets/drawer/logo.widget.dart';
+import 'package:quiz_app/presentation/shared/drawer/logo.widget.dart';
+import 'package:quiz_app/presentation/shared/drawer/item_menu.widget.dart';
 
 class DrawerWidget extends GetView<HomeController> {
   @override
@@ -22,8 +23,8 @@ class DrawerWidget extends GetView<HomeController> {
                 ),
                 const SizedBox(height: 15),
                 ItemMenuWidget(
-                  label: 'Hanking geral',
-                  onTap: () {},
+                  label: 'Ranking geral',
+                  onTap: () => Get.toNamed(Routes.ranking),
                 ),
                 ItemMenuWidget(
                   label: 'Sobre o projeto',
