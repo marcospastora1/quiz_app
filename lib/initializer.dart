@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:quiz_app/domain/core/constants/storage.constants.dart';
 import 'package:quiz_app/presentation/shared/loading/loading.controller.dart';
 
 class Initializer {
@@ -9,6 +10,7 @@ class Initializer {
     try {
       WidgetsFlutterBinding.ensureInitialized();
       await _initStorage();
+      await _initializeRanking();
       _initGlobalLoading();
       _initScreenPreference();
     } catch (err) {
@@ -31,5 +33,12 @@ class Initializer {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+  }
+
+  static Future<void> _initializeRanking() async {
+    final _storage = Get.find<GetStorage>();
+    _storage.hasData(StorageConstants.ranking)
+        ? null
+        : await _storage.write(StorageConstants.ranking, []);
   }
 }
