@@ -1,4 +1,7 @@
-# Quiz App
+<div align= "center">
+<img src="https://user-images.githubusercontent.com/93161571/207584978-66cea088-96c6-4408-a9b1-57bf8e1e3175.png" width="200px"/>
+</div>
+<h1> Quiz Sales </h1>
 
 Esse projeto foi desenvolvido por alunos do 4º período dos curso de Sistemas de Informação e Análise e Desenvolvimento de Sistemas. O objetivo desse projeto é tornar as aulas mais dinâmicas através do uso da tecnologia.
 
