@@ -10,7 +10,7 @@ class HomeScreen extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Bem vindo, pronto para o jogo?',
+          'Bem vindo, preparado para o jogo?',
           style: TextStyle(fontSize: 18),
         ),
         backgroundColor: const Color(0xFF3338AC),
